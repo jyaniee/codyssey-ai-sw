@@ -54,7 +54,7 @@ def read_csv_file(filename):
             continue
     
         inventory_list.append(item)
-        # print(len(inventory_list))
+    # print(len(inventory_list))
 
     return inventory_list
 
