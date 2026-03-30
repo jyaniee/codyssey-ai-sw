@@ -1,0 +1,16 @@
+datetime: 2026-03-30 23:31:06
+mars_base_internal_temperature: 29.55
+mars_base_external_temperature: 14.84
+mars_base_internal_humidity: 51.14
+mars_base_external_illuminance: 595.15
+mars_base_internal_co2: 0.0211
+mars_base_internal_oxygen: 6.5
+----------------------------------------
+datetime: 2026-03-30 23:31:56
+mars_base_internal_temperature: 21.57
+mars_base_external_temperature: 13.62
+mars_base_internal_humidity: 50.11
+mars_base_external_illuminance: 601.38
+mars_base_internal_co2: 0.0436
+mars_base_internal_oxygen: 6.08
+----------------------------------------
