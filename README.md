@@ -14,6 +14,7 @@
 | 03 | 인화 물질을 찾아라 |
 | 06 | 미션 컴퓨터 리턴즈 |
 | 07 | 살아난 미션 컴퓨터 |
+| 08 | 불안정한 미션 컴퓨터 |
 
 ---
 
@@ -78,4 +79,23 @@
 - `RunComputer.get_sensor_data()` 호출을 통해 지속적으로 환경값 출력
 - 특정 키 입력 시 반복 출력을 중단하는 기능 추가
 - 5분마다 각 환경값의 평균을 계산하여 출력하는 기능 추가
+- 과제 수행 내용을 보고서로 작성
+
+---
+
+## 문제 08
+미션 컴퓨터의 시스템 정보와 실시간 부하 상태를 확인하고,  
+출력 항목을 설정 파일로 제어할 수 있도록 구현하는 과제
+
+**구현 내용**
+
+- `MissionComputer` 클래스에 `get_mission_computer_info()` 메서드 추가
+- 운영체계, 운영체계 버전, CPU 타입, CPU 코어 수, 메모리 크기 확인 기능 구현
+- `MissionComputer` 클래스에 `get_mission_computer_load()` 메서드 추가
+- CPU 실시간 사용량, 메모리 실시간 사용량 확인 기능 구현
+- 시스템 정보와 부하 정보를 JSON 형태로 출력
+- `MissionComputer` 클래스를 `runComputer`라는 이름으로 인스턴스화
+- `runComputer.get_mission_computer_info()` 및 `runComputer.get_mission_computer_load()` 호출
+- 시스템 정보 관련 예외처리 추가
+- `setting.txt` 파일을 이용하여 출력 항목을 설정하는 기능 추가
 - 과제 수행 내용을 보고서로 작성
