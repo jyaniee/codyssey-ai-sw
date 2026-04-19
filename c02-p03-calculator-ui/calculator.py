@@ -11,28 +11,24 @@ from PyQt5.QtWidgets import (
     QSizePolicy
 )
 
-def load_iphone_font(point_size):  # 샌프란시스코 폰트
+def load_iphone_font(point_size, src):  # 샌프란시스코 폰트 로드 함수, point_size: 폰트 크기, src는 어디서 호출한 건지 구분하기 위한 문자열
     font_path = 'SF-Pro-Display-Medium.otf'
     font_id = QFontDatabase.addApplicationFont(font_path)
 
-    if font_id != -1:
+    if font_id != -1:   # 폰트 파일 로드 성공 시
         font_families = QFontDatabase.applicationFontFamilies(font_id)
 
-        if font_families:
+        if font_families:   # 폰트 family 이름이 정상적으로 추출되면
             family = font_families[0]
             database = QFontDatabase()
 
-            print(f'폰트 파일 로드 성공: {family}')
-            print('사용 가능한 스타일:', database.styles(family))
-
-
-            if 'Bold' in database.styles(family):
-                return database.font(family, 'Bold', point_size)
+            print(f'[{src}] 폰트 파일 로드 성공: {family}')
+            print(f'[{src}] 사용 가능한 스타일: {database.styles(family)}')
             
-            return QFont(family, point_size)
+            return QFont(family, point_size)    # 해당 family와 point_size로 폰트 객체 생성 후 반환
         
     print('폰트 파일 로드 실패: Arial 사용')
-    return 'Arial'
+    return QFont('Arial', point_size)
 
 class CalculatorUI(QWidget):
     def __init__(self):
@@ -60,7 +56,6 @@ class CalculatorUI(QWidget):
         )
         self.display.setFont(self.display_font)
         print('display 실제 적용 폰트:', QFontInfo(self.display.font()).family())
-        print('display 실제 적용 스타일:', QFontInfo(self.display.font()).styleName())
         self.display.setFixedHeight(170)
 
         main_layout.addWidget(self.display)
