@@ -174,7 +174,7 @@ class CalculatorUI(QWidget):
 
 
 if __name__ == '__main__':  # 이 파일이 직접 실행될 때만 아래 코드를 실행함
-    app = QApplication(sys.argv)    # PtPy 애플리케이션 객체 생성
+    app = QApplication(sys.argv)    # PyQt 애플리케이션 객체 생성
     calculator = CalculatorUI() # 계산기 창 객체 생성
     calculator.show()   # 계산기 창 보여줌
     sys.exit(app.exec_())   # 프로그램 종료 시 정상 종료
