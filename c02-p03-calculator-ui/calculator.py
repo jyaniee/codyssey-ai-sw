@@ -40,7 +40,7 @@ class CalculatorUI(QWidget):
         self.setFixedSize(360, 640) # 창 크기 고정 360 x 640
         self.setStyleSheet('background-color: black;')  # 배경색 검정
 
-        main_layout = QVBoxLayout() # 전체 화면은 디스플레이 영역 + 버튼 영역의 세로 구조
+        main_layout = QVBoxLayout() # 전체 화면은 상단 디스플레이 영역 + 하단 버튼 영역의 세로 구조
         main_layout.setContentsMargins(12, 20, 12, 20)  # 왼, 위, 오, 아 순으로 마진 설정
         main_layout.setSpacing(12)  # 디스플레이 영역과 버튼 영역의 간격을 12로 설정
 
