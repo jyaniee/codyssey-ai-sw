@@ -2,12 +2,12 @@ import sys  # PyQt 프로그램 종료 처리에 필요한 sys 모듈
 from PyQt5.QtCore import Qt # 정렬 옵션(오른쪽 정렬, 아래 정렬 등)을 사용하기 위함
 from PyQt5.QtGui import QFont, QFontDatabase, QFontInfo # 폰트 객체 생성용 QFont, 폰트 파일 로드용 QFontDatabase, 실제 적용된 폰트 확인용 QFontInfo를 불러온다.
 from PyQt5.QtWidgets import (
-    QApplication,   # 앱 실행
-    QWidget,    # 위젯
-    QGridLayout,    # 격자 배치
-    QVBoxLayout,    # 세로 배치
-    QPushButton,    # 버튼 위젯
-    QLabel  # 글자 표시
+    QApplication, 
+    QWidget,   
+    QGridLayout,  
+    QVBoxLayout, 
+    QPushButton,   
+    QLabel 
 )
 
 def load_iphone_font(point_size, src):  # 샌프란시스코 폰트 로드 함수, point_size: 폰트 크기, src는 어디서 호출한 건지 구분하기 위한 문자열
