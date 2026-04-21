@@ -13,16 +13,13 @@ from PyQt5.QtWidgets import (
 def load_iphone_font(point_size, src):  # 샌프란시스코 폰트 로드 함수, point_size: 폰트 크기, src는 어디서 호출한 건지 구분하기 위한 문자열
     font_path = 'SF-Pro-Display-Medium.otf' # 불러올 폰트 파일 경로 지정
     font_id = QFontDatabase.addApplicationFont(font_path)   # 지정한 폰트 파일을 현재 프로그램에 등록
-
+    
     if font_id != -1:   # font_id가 -1이 아니면 폰트 파일 로드에 성공했다는 뜻
-        font_families = QFontDatabase.applicationFontFamilies(font_id)  # 방금 등록한 폰트 파일의 family 이름 목록을 가져옴
-
+        font_families = QFontDatabase.applicationFontFamilies(font_id)  # 지정된 애플리케이션 글꼴에 대한 글꼴 패밀리 목록을 반환
         if font_families:   # 폰트 family 이름이 정상적으로 추출되면
-            family = font_families[0]   # 첫 번째 family 이름을 family 변수에 저장
-            database = QFontDatabase()  # QFontDatabase 객체를 하나 만듬
+            family = font_families[0]   # 첫 번째 family 이름을 family 변수에 저장(반환 값이 StringList이라서)
 
             print(f'[{src}] 폰트 파일 로드 성공: {family}') # 어떤 위치(src)에서 폰트가 성공적으로 로드되었는지 출력
-            print(f'[{src}] 사용 가능한 스타일: {database.styles(family)}') # 해당 family가 지원하는 스타일 목록도 같이 출력
             
             return QFont(family, point_size)    # 로드한 family 이름과 원하는 크기로 QFont 객체를 만들어 반환
         
