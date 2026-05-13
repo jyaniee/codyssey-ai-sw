@@ -96,6 +96,7 @@ PASSWORD_FILE_NAME = os.path.join(BASE_DIR, "password.txt")
 HASH_FILE_NAME = os.path.join(BASE_DIR, "zip_hash.txt")
 ```
 이를 통해 어느 위치에서 Python 파일을 실행하더라도 같은 폴더에 있는 ZIP 파일과 결과 파일을 사용할 수 있다.
+
 ---
 ### 5.3 ZIP 해시 추출
 `extract_zip_hash()` 함수는 `zip2john.exe`를 실행하여 ZIP 파일의 해시를 추출한다.
