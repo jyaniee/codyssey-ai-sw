@@ -10,6 +10,8 @@ PASSWORD_FILE_NAME = "password.txt"
 
 CHARACTERS = "0123456789abcdefghijklmnopqrstuvwxyz"
 PASSWORD_LENGTH = 6
+TOTAL_CASES = len(CHARACTERS) ** PASSWORD_LENGTH
+
 
 def format_elapsed_time(seconds):
     hours = int(seconds // 3600)
@@ -58,6 +60,7 @@ def unlock_zip():
     print(f"시작 시간: {start_datetime}")
     print(f"대상 파일: {ZIP_FILE_NAME}")
     print(f"비밀번호 조건: 숫자와 소문자 알파벳으로 구성된 {PASSWORD_LENGTH}자리 문자")
+    print(f"전체 경우의 수: {TOTAL_CASES:,}")
     print("-" * 60)
 
     if not os.path.exists(ZIP_FILE_NAME):
@@ -92,10 +95,20 @@ def unlock_zip():
                 
                 if attempt_count % print_interval == 0:
                     elapsed_time = time.time() - start_time
+
+                    attempts_per_second = attempt_count / elapsed_time
+                    remaining_count = TOTAL_CASES - attempt_count
+                    estimated_remaining_time = remaining_count / attempts_per_second
+
+                    progress_rate = (attempt_count / TOTAL_CASES) * 100
+
                     print(
                         f"반복 횟수: {attempt_count}, "
                         f"현재 시도: {candidate_password}, "
-                        f"진행 시간: {format_elapsed_time(elapsed_time)}"
+                        f"진행률: {progress_rate:.6f}, "
+                        f"초당 시도: {attempts_per_second:,.2f}회, "
+                        f"진행 시간: {format_elapsed_time(elapsed_time)}, "
+                        f"예상 남은 시간: {format_elapsed_time(estimated_remaining_time)}"
                     )
 
     except zipfile.BadZipFile:
