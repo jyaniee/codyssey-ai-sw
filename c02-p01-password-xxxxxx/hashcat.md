@@ -28,7 +28,24 @@ Python 기반 구현에서는 전체 경우의 수가 매우 크기 때문에, �
 Hashcat은 추출된 해시를 대상으로 마스크 공격을 수행하여 비밀번호 후보를 빠르게 대입하였다.
 
 ---
-## 3. 전체 동작 흐름
+## 3. 설치 및 준비 과정
+
+이번 실험에서는 `zip2john.exe`와 `hashcat.exe`가 필요하다.
+
+`zip2john.exe`는 [John the Ripper 공식 사이트](https://www.openwall.com/john/)에서 Windows용 바이너리 배포판을 내려받아 사용하였다. 해당 페이지에서 `1.9.0-jumbo-1 64-bit Windows binaries in 7z, 22 MB (signature) or zip, 63 MB (signature)` 항목을 선택하여 다운로드한 뒤 압축을 해제하면, `run` 폴더 안에서 `zip2john.exe`를 확인할 수 있다.
+
+Hashcat은 [Hashcat 공식 사이트](https://hashcat.net/hashcat/)에서 Windows용 바이너리를 다운로드하여 사용하였다. 압축을 해제하면 `hashcat.exe`와 실행에 필요한 폴더들이 함께 제공되므로, 별도의 빌드 과정 없이 사용할 수 있다.
+
+본 코드에서는 환경 변수 설정에 의존하지 않도록 두 실행 파일의 경로를 코드에 직접 지정하였다.
+
+```python
+HASHCAT_PATH = r"C:\tools\hashcat-7.1.2\hashcat.exe"
+ZIP2JOHN_PATH = r"C:\tools\john-1.9.0-jumbo-1-win64\run\zip2john.exe"
+```
+
+---
+
+## 4. 전체 동작 흐름
 ```text
 1. emergency_storage_key.zip 파일 확인
 2. zip2john.exe 실행
@@ -44,7 +61,7 @@ Python 코드가 직접 ZIP 파일을 반복해서 열어보는 것이 아니라
 실제 비밀번호 대입은 Hashcat이 수행한다.
 
 ---
-## 4. 마스크 공격 조건
+## 5. 마스크 공격 조건
 문제에서 제시된 비밀번호 조건은 다음과 같다.
 ```text
 특수문자 없음
@@ -76,8 +93,8 @@ Hashcat에서는 이를 다음과 같은 마스크로 표현하였다.
 
 ---
 
-## 5. 주요 코드 설명
-### 5.1 도구 경로 설정
+## 6. 주요 코드 설명
+### 6.1 도구 경로 설정
 Hashcat과 zip2john을 실행하기 위해 각 실행 파일의 경로를 지정하였다.
 ```python
 HASHCAT_PATH = r"C:\tools\hashcat-7.1.2\hashcat.exe"
@@ -86,7 +103,7 @@ ZIP2JOHN_PATH = r"C:\tools\john-1.9.0-jumbo-1-win64\run\zip2john.exe"
 환경 변수에 등록하지 않아도 Python 코드에서 직접 실행할 수 있도록 절대경로를 사용하였다.
 
 ---
-### 5.2 파일 경로 설정
+### 6.2 파일 경로 설정
 Hashcat 실행 시 작업 디렉터리가 달라져도 파일을 안정적으로 찾을 수 있도록, 현재 Python 파일 위치를 기준으로 경로를 생성하였다.
 ```python
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -98,7 +115,7 @@ HASH_FILE_NAME = os.path.join(BASE_DIR, "zip_hash.txt")
 이를 통해 어느 위치에서 Python 파일을 실행하더라도 같은 폴더에 있는 ZIP 파일과 결과 파일을 사용할 수 있다.
 
 ---
-### 5.3 ZIP 해시 추출
+### 6.3 ZIP 해시 추출
 `extract_zip_hash()` 함수는 `zip2john.exe`를 실행하여 ZIP 파일의 해시를 추출한다.
 ```python
 result = subprocess.run(
@@ -117,7 +134,7 @@ with open(HASH_FILE_NAME, "w", encoding="utf-8") as file:
     file.write(output + "\n")
 ```
 ---
-### 5.4 Hashcat 실행
+### 6.4 Hashcat 실행
 `run_hashcat()` 함수는 Hashcat을 실행하여 마스크 공격을 수행한다.
 ```python
 command = [
@@ -146,7 +163,7 @@ command = [
 | `-w 4`              | 높은 성능 우선 설정                 |
 
 ---
-### 5.5 Hashcat 작업 디렉터리 설정
+### 6.5 Hashcat 작업 디렉터리 설정
 처음에는 Hashcat 실행 시 다음 오류가 발생하였다.
 ```text
 ./OpenCL/: No such file or directory
@@ -175,7 +192,7 @@ process = subprocess.Popen(
 이후 Hashcat이 정상적으로 GPU 장치를 인식하였다.
 
 ---
-## 6. Hashcat 모드
+## 7. Hashcat 모드
 ZIP 파일의 암호화 방식에 따라 Hashcat의 모드 번호가 달라질 수 있다.
 
 따라서 코드에서는 여러 ZIP 관련 모드를 순서대로 시도하도록 작성하였다.
@@ -188,7 +205,7 @@ HASHCAT_ZIP_MODES = [17200, 17210, 17220, 17225, 17230, 13600]
 
 ---
 
-## 7. 실행 결과
+## 8. 실행 결과
 Hashcat 실행 중 GPU 장치가 정상적으로 인식되었다.
 ```text
 OpenCL API (OpenCL 3.0 CUDA 13.2.73) - Platform #1 [NVIDIA Corporation]
@@ -212,7 +229,7 @@ Optimizers applied:
 
 ---
 
-## 8. 기존 Python 방식과의 차이
+## 9. 기존 Python 방식과의 차이
 | 구분       | Python 방식            | Hashcat 방식           |
 | -------- | -------------------- | -------------------- |
 | 실행 방식    | Python이 직접 ZIP 파일 열기 | Hashcat이 해시 기반 대입 수행 |
@@ -227,7 +244,7 @@ Python 방식은 과제 조건을 만족하는 구현이지만, 모든 후보 �
 
 ---
 
-## 9. 주의사항
+## 10. 주의사항
 이 방식은 외부 도구인 John the Ripper와 Hashcat을 사용한다.
 
 따라서 문제의 제약사항인 “Python 기본 제공 명령어 이외의 별도 라이브러리나 패키지를 사용하지 않는다”는 조건에는 맞지 않을 수 있다.
@@ -238,7 +255,7 @@ Python 방식은 과제 조건을 만족하는 구현이지만, 모든 후보 �
 
 ---
 
-## 10. 느낀점
+## 11. 느낀점
 이번 실험을 통해 같은 무차별 대입 방식이라도 구현 방식과 실행 환경에 따라 성능 차이가 매우 크다는 것을 확인할 수 있었다.
 
 Python으로 직접 ZIP 파일을 반복해서 검사하는 방식은 구현이 쉽고 과제 조건에 적합하지만, 전체 경우의 수가 커질수록 실행 시간이 급격히 증가한다.
