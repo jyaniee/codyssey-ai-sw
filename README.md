@@ -18,6 +18,7 @@
 | c02-01 | 비밀번호 XXXXXX |
 | c02-03 | 계산기의 제작 |
 | c02-04 | 계산기의 핵심코어 제작 |
+| c02-05 | 내일 날씨는 맑음 |
 | c02-07 | 자비스가 필요해! |
 | c02-08 | 음성에서 문자로 |
 
@@ -188,3 +189,25 @@ ZIP 파일에 설정된 비밀번호를 찾아 emergency storage 접근에 필�
 - STT 인식 실패 및 파일 처리 예외 처리 적용
 - 기존 녹음 기능은 과정 2 문제 07에서 다룬 내용으로 보고, 본 문제에서는 STT 변환 기능을 중심으로 구현
 - 과제 수행 내용을 보고서로 작성
+
+---
+
+## 과정 2 문제 05
+
+화성의 날씨 데이터를 담은 CSV 파일을 읽고, MySQL 테이블에 입력할 수 있는 SQL 파일을 생성하는 과제
+
+**구현 내용**
+
+* `mars_weather_data.csv` 파일 읽기
+* CSV 파일의 `weather_id`, `mars_date`, `temp`, `stom` 컬럼 확인
+* CSV의 `stom` 컬럼을 테이블의 `storm` 컬럼에 대응하도록 처리
+* `mars_weather` 테이블 생성 SQL 작성
+* `weather_id` 컬럼을 `AUTO_INCREMENT PRIMARY KEY`로 설정
+* `mars_date` 컬럼을 필수 입력값으로 설정
+* 실제 CSV 데이터의 `temp` 값이 소수점 형태이므로 `FLOAT` 타입으로 처리
+* CSV 데이터를 `INSERT` 쿼리 형태로 변환
+* 생성된 SQL 쿼리를 `mars_weather_summary.sql` 파일로 저장
+* CSV 파일 읽기 및 SQL 파일 저장 과정 예외 처리 적용
+* MySQL 직접 연결 및 Workbench 사용은 제외하고, MySQL에서 실행 가능한 SQL 스크립트 생성 방식으로 구현
+* 전체 코드를 `mars_weather_summary.py` 파일로 작성
+* 과제 수행 내용을 보고서로 작성
